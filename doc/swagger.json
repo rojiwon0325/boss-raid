@@ -2,13 +2,13 @@
   "openapi": "3.0.1",
   "servers": [
     {
-      "url": "https://github.com/rojiwon0325/nestddd",
-      "description": "nestjs template for ddd"
+      "url": "https://github.com/rojiwon0325/boss-raid",
+      "description": "PVE Game Server, Boss Raid"
     }
   ],
   "info": {
     "version": "0.0.1",
-    "title": "NestDDD - nestjs template designed DDD"
+    "title": "PVE Game Server, Boss Raid"
   },
   "paths": {
     "/auth/sign-in": {

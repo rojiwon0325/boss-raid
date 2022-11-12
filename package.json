@@ -1,8 +1,8 @@
 {
-  "name": "nestddd",
+  "name": "boss-raid",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "PVE Game BOSS RAID server",
+  "author": "rojiwon",
   "private": true,
   "license": "UNLICENSED",
   "main": "dist/main",
