@@ -1,8 +1,10 @@
+import { Public } from '@AUTH/provider/decorator';
 import { BossRaidUsecase } from '@BOSSRAID/application/adapter/boss-raid.usecase';
 import { IBossRaidUsecase } from '@BOSSRAID/application/port/boss-raid.usecase.port';
 import { Controller, Get, Inject, Patch, Post } from '@nestjs/common';
 import helper from 'nestia-helper';
 
+@Public()
 @Controller('bossRaid')
 export class BossRaidController {
   constructor(
