@@ -41,11 +41,11 @@
 
 ### 보스 레이드 상태 조회
 
-| 분류     | 내용                                         |
-| -------- | -------------------------------------------- |
-| method   | `GET`                                        |
-| path     | {BASE_URL}/bossRaid                          |
-| response | { canEnter: boolean, enteredUserId: number } |
+| 분류     | 내용                                          |
+| -------- | --------------------------------------------- |
+| method   | `GET`                                         |
+| path     | {BASE_URL}/bossRaid                           |
+| response | { canEnter: boolean, enteredUserId?: number } |
 
 ### 보스 레이드 랭킹 조회
 
@@ -65,12 +65,12 @@ interface RankingInfo {
 
 ### 보스 레이드 시작
 
-| 분류     | 내용                                         |
-| -------- | -------------------------------------------- |
-| method   | `POST`                                       |
-| path     | {BASE_URL}/bossRaid/enter                    |
-| body     | { userId: number, level: number }            |
-| response | { isEntered: boolean, raidRecordId: number } |
+| 분류     | 내용                                          |
+| -------- | --------------------------------------------- |
+| method   | `POST`                                        |
+| path     | {BASE_URL}/bossRaid/enter                     |
+| body     | { userId: number, level: number }             |
+| response | { isEntered: boolean, raidRecordId?: number } |
 
 ![boss_raid_enter](https://user-images.githubusercontent.com/68629004/201506755-c22e1a19-6a44-4fce-b2f5-97846e63c91c.png)
 
@@ -91,6 +91,9 @@ interface RankingInfo {
 
 ## 진행상황
 
-- [ ] 보스 레이드 상태 조회 API 구현
-- [ ] 보스 레이드 시작 API 구현
-- [ ] 보스 레이드 종료 API 구현
+- [x] 보스 레이드 상태 조회 API 구현
+- [x] 보스 레이드 시작 API 구현
+- [x] 보스 레이드 종료 API 구현
+- [ ] 보스 레이드 랭킹 시스템 구현
+- [ ] redis caching system 도입
+- [ ] user 조회 API 수정

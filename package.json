@@ -103,7 +103,8 @@
       "@COMMON/(.*)$": "<rootDir>/../src/api/common/$1",
       "@AUTH/(.*)$": "<rootDir>/../src/api/auth/$1",
       "@USER/(.*)$": "<rootDir>/../src/api/user/$1",
-      "@CRYPTO/(.*)$": "<rootDir>/../src/api/crypto/$1"
+      "@CRYPTO/(.*)$": "<rootDir>/../src/api/crypto/$1",
+      "@BOSSRAID/(.*)$": "<rootDir>/../src/api/boss-raid/$1"
     },
     "coveragePathIgnorePatterns": [
       "main.ts",
