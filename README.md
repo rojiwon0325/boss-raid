@@ -93,5 +93,5 @@ interface RankingInfo {
 
 - [x] 보스 레이드 API 구현
 - [x] 유저 API 구현
-- [ ] redis 기반 caching system 도입
-- [ ] staticData 웹서버 캐싱
+- [x] caching system 도입
+- [x] staticData 웹서버 캐싱
