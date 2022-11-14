@@ -16,7 +16,9 @@ export interface BossRaid {
 export const BossRaid: BossRaid = {
   getScore(dungeon, targetLevel) {
     return (
-      dungeon.levels.find(({ level }) => level === targetLevel)?.score ?? 0
+      dungeon.levels.find(({ level }) => level === targetLevel)?.score ??
+      dungeon.levels[0]?.score ??
+      0
     );
   },
   getTimeLimit({ limit_seconds }) {

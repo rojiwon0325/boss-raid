@@ -49,11 +49,26 @@ export namespace IBossRaidUsecase {
     readonly userId: User.Id;
     readonly raidRecordId: Record.Id;
   }
+  export interface RankingInfo {
+    readonly ranking: number;
+    readonly userId: number;
+    readonly totalScore: number;
+  }
+  export type GetRank = {
+    readonly userId: number;
+  };
+  export interface GetRankResponse {
+    readonly topRankerInfoList: RankingInfo[];
+    readonly myRankingInfo?: RankingInfo;
+  }
 }
 export interface IBossRaidUsecase {
   readonly getState: () => Promise<IBossRaidUsecase.GetStateResponse>;
   readonly enter: (
     args: IBossRaidUsecase.Enter,
   ) => Promise<IBossRaidUsecase.EnterResponse>;
+  readonly getRankers: (
+    args: IBossRaidUsecase.GetRank,
+  ) => Promise<IBossRaidUsecase.GetRankResponse>;
   readonly end: (args: IBossRaidUsecase.End) => Promise<void>;
 }

@@ -3,11 +3,11 @@ import { BossRaidRecordModule } from './@record/record.module';
 import { BossRaidDungeonModule } from './@dungeon/dungeon.module';
 import { BossRaidUsecase } from './application/adapter/boss-raid.usecase';
 import { BossRaidController } from './presentation/web/boss-raid.controller';
-import { BossRaidRankUsecase } from './application/adapter/boss-raid.rank.usecase';
+import { RankerModule } from './@ranker/ranker.module';
 
 @Module({
-  imports: [BossRaidDungeonModule, BossRaidRecordModule],
-  providers: [BossRaidUsecase, BossRaidRankUsecase],
+  imports: [BossRaidDungeonModule, BossRaidRecordModule, RankerModule],
+  providers: [BossRaidUsecase],
   controllers: [BossRaidController],
 })
 export class BossRaidModule {}

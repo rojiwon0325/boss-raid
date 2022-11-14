@@ -6,6 +6,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IBossRaidUsecase } from '../port/boss-raid.usecase.port';
 import { DungeonService } from '@BOSSRAID/@dungeon/application/adapter/dungeon.service';
 import { RecordService } from '@BOSSRAID/@record/application/adapter/record.service';
+import { IRankerService } from '@BOSSRAID/@ranker/ranker.service.port';
+import { RankerService } from '@BOSSRAID/@ranker/ranker.service';
 
 @Injectable()
 export class BossRaidUsecase implements IBossRaidUsecase {
@@ -14,11 +16,29 @@ export class BossRaidUsecase implements IBossRaidUsecase {
     private readonly dungeonService: IDungeonService,
     @Inject(RecordService)
     private readonly recordService: IRecordService,
+    @Inject(RankerService)
+    private readonly rankerService: IRankerService,
   ) {}
 
   async getState(): Promise<IBossRaidUsecase.GetStateResponse> {
     const { limit_seconds } = await this.dungeonService.findOne();
     return this.recordService.getState({ limit_seconds });
+  }
+
+  async getRankers({
+    userId,
+  }: IBossRaidUsecase.GetRank): Promise<IBossRaidUsecase.GetRankResponse> {
+    const rankers = (
+      await this.rankerService.findMany()
+    ).map<IBossRaidUsecase.RankingInfo>((ranker, idx) => ({
+      ranking: idx,
+      userId: ranker.user_id,
+      totalScore: ranker.score,
+    }));
+    return {
+      topRankerInfoList: rankers,
+      myRankingInfo: rankers.find((info) => info.userId === userId),
+    };
   }
 
   async enter({
@@ -52,7 +72,7 @@ export class BossRaidUsecase implements IBossRaidUsecase {
 
     if (GAME_CLEAR) {
       const score = BossRaid.getScore(dungeon, record.level);
-      console.log(score, userId); // 랭킹 시스템 도입
+      await this.rankerService.save({ user_id: userId, score });
     } else {
       throw HttpExceptionFactory(
         'BadRequest',

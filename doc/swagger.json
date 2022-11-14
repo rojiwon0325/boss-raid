@@ -73,7 +73,9 @@
     },
     "/bossRaid": {
       "get": {
-        "tags": [],
+        "tags": [
+          "boss-raid"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -99,7 +101,9 @@
     },
     "/bossRaid/topRankerList": {
       "get": {
-        "tags": [],
+        "tags": [
+          "boss-raid"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "myrank로 확인할 유저의 Id",
@@ -129,7 +133,9 @@
     },
     "/bossRaid/enter": {
       "post": {
-        "tags": [],
+        "tags": [
+          "boss-raid"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "입장 유저 정보 및 레벨 정보",
@@ -166,7 +172,9 @@
     },
     "/bossRaid/end": {
       "patch": {
-        "tags": [],
+        "tags": [
+          "boss-raid"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "종료할 유저 및 레코드 정보",
