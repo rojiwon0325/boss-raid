@@ -11,8 +11,12 @@ export class RankerService implements IRankerService {
     private readonly repository: Repository<RankerEntity>,
   ) {}
 
-  async save({ user_id, score }: IRankerService.Ranker): Promise<void> {
-    await this.repository.save({ user_id, score });
+  async save({
+    user_id,
+    score,
+    record_id,
+  }: IRankerService.Save): Promise<void> {
+    await this.repository.save({ record_id, user_id, score });
     return;
   }
 

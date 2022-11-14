@@ -72,7 +72,11 @@ export class BossRaidUsecase implements IBossRaidUsecase {
 
     if (GAME_CLEAR) {
       const score = BossRaid.getScore(dungeon, record.level);
-      await this.rankerService.save({ user_id: userId, score });
+      await this.rankerService.save({
+        user_id: userId,
+        score,
+        record_id: raidRecordId,
+      });
     } else {
       throw HttpExceptionFactory(
         'BadRequest',
