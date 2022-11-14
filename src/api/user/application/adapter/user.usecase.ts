@@ -1,6 +1,3 @@
-import { AuthService } from '@AUTH/application/adapter/auth.service';
-import { IAuthService } from '@AUTH/application/port/auth.service.port';
-import { Crypto } from '@CRYPTO/domain';
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@USER/domain';
 import { UserRepository } from '@USER/infrastructure/adapter/user.repository';
@@ -12,52 +9,34 @@ import { UserService } from './user.service';
 @Injectable()
 export class UserUsecase implements IUserUsecase {
   constructor(
-    @Inject(AuthService)
-    private readonly authService: IAuthService,
     @Inject(UserService)
     private readonly userService: IUserService,
     @Inject(UserRepository)
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async findOne({ id }: IUserUsecase.FindOne): Promise<User.Profile> {
-    return User.getProfile(await this.userService.findOne({ id }));
-  }
-
-  async findMe({ id }: IUserUsecase.FindOne): Promise<User.ProfileDetail> {
-    return User.getProfileDetail(await this.userService.findOne({ id }));
-  }
-
-  async create({
-    username,
-    email,
-    password,
-  }: IUserUsecase.Create): Promise<User.ProfileDetail> {
-    await this.authService.checkDuplicate({ email });
-
-    const hashed = await Crypto.encrypt(password);
-    return User.getProfileDetail(
-      await this.userRepository.save(
-        User.get({ email, username, password: hashed }),
-      ),
-    );
-  }
-
-  async update(
-    { id }: IUserUsecase.FindOne,
-    { username, bio, birth, phone }: IUserUsecase.Update,
-  ): Promise<User.ProfileDetail> {
-    const user = await this.userService.findOne({ id });
-    if (username) User.setUsername(user, { username });
-    User.setMetadata(user, {
-      ...(bio ? { bio } : {}),
-      ...(birth ? { birth } : {}),
-      ...(phone ? { phone } : {}),
+  async findOne({
+    id,
+  }: IUserUsecase.FindOne): Promise<IUserUsecase.FindOneResponse> {
+    const { total_score, boss_raid_history } = await this.userService.findOne({
+      id,
     });
-    return User.getProfileDetail(await this.userRepository.save(user));
+    return {
+      totalScore: total_score,
+      bossRaidHistory: boss_raid_history.map(
+        ({ score, id: raidRecordId, enter_time, end_time }) => ({
+          raidRecordId,
+          score,
+          enterTime: enter_time.toLocaleString(),
+          endTime: end_time.toLocaleString(),
+        }),
+      ),
+    };
   }
 
-  remove({ id }: IUserUsecase.FindOne): Promise<void> {
-    return this.userRepository.remove({ id });
+  async create(): Promise<IUserUsecase.CreateResponse> {
+    const user = User.get({ boss_raid_history: [] });
+    const { id } = await this.userRepository.save(user);
+    return { userId: id };
   }
 }

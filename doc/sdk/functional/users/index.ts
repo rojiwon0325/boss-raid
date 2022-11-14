@@ -9,19 +9,12 @@ import type { IConnection } from "nestia-fetcher";
 import TSON from "typescript-json";
 
 import type { IUserUsecase } from "./../../../../src/api/user/application/port/user.usecase.port";
-import type { User } from "./../../../../src/api/user/domain/index";
-
-export * as me from "./me";
 
 /**
- * 사용자 회원가입 API
+ * 사용자 생성 API
  * 
  * @tag user
- * @tag public
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
- * @param body 사용자 계정 정보 전달
- * @returns 생성된 사용자의 세부 프로필 정보 응답
- * @throw 400 email duplicate
+ * @returns 생성된 사용자 id
  * 
  * @controller UserController.create()
  * @path POST /users
@@ -29,8 +22,7 @@ export * as me from "./me";
  */
 export function create
     (
-        connection: IConnection,
-        body: IUserUsecase.Create
+        connection: IConnection
     ): Promise<create.Output>
 {
     return Fetcher.fetch
@@ -38,15 +30,12 @@ export function create
         connection,
         create.ENCRYPTED,
         create.METHOD,
-        create.path(),
-        body,
-        create.stringify
+        create.path()
     );
 }
 export namespace create
 {
-    export type Input = IUserUsecase.Create;
-    export type Output = User.ProfileDetail;
+    export type Output = IUserUsecase.CreateResponse;
 
     export const METHOD = "POST" as const;
     export const PATH: string = "/users";
@@ -63,13 +52,12 @@ export namespace create
 }
 
 /**
- * 사용자 조회 API
+ * 사용자 기록 조회 API
  * 
  * @tag user
- * @tag public
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param id 사용자 id
- * @returns 사용자 공개 프로필 정보
+ * @returns 사용자 레이드 기록
  * 
  * @controller UserController.findOne()
  * @path GET /users/:user_id
@@ -91,7 +79,7 @@ export function findOne
 }
 export namespace findOne
 {
-    export type Output = User.Profile;
+    export type Output = IUserUsecase.FindOneResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/:user_id";
