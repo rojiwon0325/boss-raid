@@ -13,7 +13,6 @@ export namespace Dungeon {
   }
 
   export interface State {
-    id: Id;
     /**
      * 던전 제한시간
      */
@@ -23,22 +22,18 @@ export namespace Dungeon {
   }
 }
 
-// type Required = keyof Pick<Dungeon.State, 'levels' | 'limit_seconds'>;
-
 export interface Dungeon {
-  readonly get: () => Dungeon.State;
+  readonly get: (
+    props: Pick<Dungeon.State, 'levels' | 'limit_seconds'>,
+  ) => Dungeon.State;
 }
 
 export const Dungeon: Dungeon = {
-  get() {
+  get(props) {
+    const { levels, limit_seconds } = props;
     return {
-      id: 1,
-      limit_seconds: 1000,
-      levels: [
-        { level: 0, score: 20 },
-        { level: 1, score: 47 },
-        { level: 2, score: 85 },
-      ],
+      limit_seconds,
+      levels,
     };
   },
 };

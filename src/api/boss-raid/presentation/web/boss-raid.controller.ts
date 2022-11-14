@@ -1,6 +1,14 @@
 import { BossRaidUsecase } from '@BOSSRAID/application/adapter/boss-raid.usecase';
 import { IBossRaidUsecase } from '@BOSSRAID/application/port/boss-raid.usecase.port';
-import { Controller, Get, Inject, Patch, Post } from '@nestjs/common';
+import {
+  CacheInterceptor,
+  Controller,
+  Get,
+  Inject,
+  Patch,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import helper from 'nestia-helper';
 
 @Controller('bossRaid')
@@ -27,6 +35,7 @@ export class BossRaidController {
    * @returns
    */
   @Get('topRankerList')
+  @UseInterceptors(CacheInterceptor)
   getRankerList(@helper.TypedBody() body: IBossRaidUsecase.GetRank) {
     const { userId } = body;
     return this.bossRaidUsecase.getRankers({ userId });
