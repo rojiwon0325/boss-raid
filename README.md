@@ -94,6 +94,6 @@ interface RankingInfo {
 - [x] 보스 레이드 상태 조회 API 구현
 - [x] 보스 레이드 시작 API 구현
 - [x] 보스 레이드 종료 API 구현
-- [ ] 보스 레이드 랭킹 시스템 구현
+- [x] 보스 레이드 랭킹 시스템 구현
+- [ ] AuthModule 제거 및 user 조회 API 수정
 - [ ] redis caching system 도입
-- [ ] user 조회 API 수정

@@ -110,7 +110,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IBossRaidRankUsecase.GetRank"
+                "$ref": "#/components/schemas/IBossRaidUsecase.GetRank"
               }
             }
           },
@@ -122,7 +122,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IBossRaidRankUsecase.GetRankResponse"
+                  "$ref": "#/components/schemas/IBossRaidUsecase.GetRankResponse"
                 }
               }
             }
@@ -485,7 +485,7 @@
         ],
         "x-tson_jsDocTags": []
       },
-      "IBossRaidRankUsecase.GetRank": {
+      "IBossRaidUsecase.GetRank": {
         "type": "object",
         "properties": {
           "userId": {
@@ -500,20 +500,20 @@
         ],
         "x-tson_jsDocTags": []
       },
-      "IBossRaidRankUsecase.GetRankResponse": {
+      "IBossRaidUsecase.GetRankResponse": {
         "type": "object",
         "properties": {
           "topRankerInfoList": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IBossRaidRankUsecase.RankingInfo",
+              "$ref": "#/components/schemas/IBossRaidUsecase.RankingInfo",
               "x-tson-required": true
             },
             "nullable": false,
             "x-tson-required": true
           },
           "myRankingInfo": {
-            "$ref": "#/components/schemas/IBossRaidRankUsecase.RankingInfo",
+            "$ref": "#/components/schemas/IBossRaidUsecase.RankingInfo",
             "x-tson-required": false
           }
         },
@@ -523,7 +523,7 @@
         ],
         "x-tson_jsDocTags": []
       },
-      "IBossRaidRankUsecase.RankingInfo": {
+      "IBossRaidUsecase.RankingInfo": {
         "type": "object",
         "properties": {
           "ranking": {
