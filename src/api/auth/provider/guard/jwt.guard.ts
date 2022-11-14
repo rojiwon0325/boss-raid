@@ -22,10 +22,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(err: Error, payload: any) {
-    if (err || payload == undefined) {
+    if (err || !payload) {
       throw HttpExceptionFactory('UnAuthorized');
     }
-
     return payload;
   }
 }
