@@ -8,23 +8,23 @@ export namespace IBossRaidUsecase {
         /**
          * 던전 입장 가능 여부
          */
-        canEnter: true;
+        readonly canEnter: true;
       }
     | {
         /**
          * 던전 입장 가능 여부
          */
-        canEnter: false;
+        readonly canEnter: false;
 
         /**
          * 현재 진행중인 유저
          */
-        enteredUserId: User.Id;
+        readonly enteredUserId: User.Id;
       };
 
   export interface Enter {
-    userId: User.Id;
-    level: Dungeon.LevelEntity['level'];
+    readonly userId: User.Id;
+    readonly level: Dungeon.LevelEntity['level'];
   }
 
   export type EnterResponse =
@@ -32,22 +32,22 @@ export namespace IBossRaidUsecase {
         /**
          * 입장 성공 여부
          */
-        isEntered: false;
+        readonly isEntered: false;
       }
     | {
         /**
          * 입장 성공 여부
          */
-        isEntered: true;
+        readonly isEntered: true;
         /**
          * 생성된 레코드 id
          */
-        raidRecordId: Record.Id;
+        readonly raidRecordId: Record.Id;
       };
 
   export interface End {
-    userId: User.Id;
-    raidRecordId: Record.Id;
+    readonly userId: User.Id;
+    readonly raidRecordId: Record.Id;
   }
 }
 export interface IBossRaidUsecase {

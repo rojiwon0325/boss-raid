@@ -11,7 +11,7 @@ export namespace IRecordRepository {
   export type Update = Pick<Record.State, 'status'>;
 }
 export interface IRecordRepository
-  extends Pick<IBaseRepository<Record.Id, Record.State>, 'findOne' | 'save'> {
+  extends IBaseRepository<Record.Id, Record.State> {
   readonly findOne: (
     where: IRecordRepository.FindOne,
   ) => Promise<Record.State | null>;

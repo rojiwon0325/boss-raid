@@ -6,6 +6,7 @@ export interface BossRaid {
     agg: Dungeon.State,
     level: Dungeon.LevelEntity['level'],
   ) => Dungeon.LevelEntity['score'];
+  readonly getTimeLimit: (args: Pick<Dungeon.State, 'limit_seconds'>) => Date;
   readonly checkTimeLimit: (
     dungeon: Dungeon.State,
     record: Record.State,
@@ -18,8 +19,11 @@ export const BossRaid: BossRaid = {
       dungeon.levels.find(({ level }) => level === targetLevel)?.score ?? 0
     );
   },
-  checkTimeLimit(dungeon, record) {
-    const limit = new Date(Date.now() - dungeon.limit_seconds * 1000);
-    return record.created_at >= limit;
+  getTimeLimit({ limit_seconds }) {
+    return new Date(Date.now() - limit_seconds * 1000);
+  },
+  checkTimeLimit({ limit_seconds }, { created_at }) {
+    const limit = this.getTimeLimit({ limit_seconds });
+    return created_at >= limit;
   },
 };

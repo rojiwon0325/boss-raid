@@ -1,4 +1,5 @@
 import { Record } from '@BOSSRAID/@record/domain';
+import { BossRaid } from '@BOSSRAID/domain';
 import { TypeOrmBaseRepository } from '@COMMON/base';
 import { IEntityMapper } from '@COMMON/interface';
 import { Inject, Injectable } from '@nestjs/common';
@@ -27,7 +28,9 @@ export class RecordRepository
   ): Promise<Record.State | null> {
     let option: FindOptionsWhere<RecordEntity> = {};
     if ('limit_seconds' in where) {
-      const limit = new Date(Date.now() + where.limit_seconds * 1000);
+      const limit = BossRaid.getTimeLimit({
+        limit_seconds: where.limit_seconds,
+      });
       option = { created_at: MoreThanOrEqual(limit), status: 'Playing' };
     } else if ('user_id' in where) {
       option = { id: where.id, user_id: where.user_id, status: 'Playing' };
@@ -36,6 +39,12 @@ export class RecordRepository
     }
     const entity = await this.getRepository().findOne({ where: option });
     return entity == null ? null : this.getMapper().toAggregate(entity);
+  }
+
+  async findMany(): Promise<Record.State[]> {
+    return (
+      await this.getRepository().find({ where: { status: 'GameClear' } })
+    ).map(this.getMapper().toAggregate);
   }
 
   async update(

@@ -27,6 +27,7 @@ export interface IRecordService {
     args: IRecordService.GetState,
   ) => Promise<IRecordService.GetStateResponse>;
   readonly findOne: (args: IRecordService.FindOne) => Promise<Record.State>;
+  readonly findMany: () => Promise<Record.State[]>;
   readonly create: (args: IRecordService.Create) => Promise<Record.State>;
   readonly endGame: (args: IRecordService.EndGame) => Promise<void>;
 }

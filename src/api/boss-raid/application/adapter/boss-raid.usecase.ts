@@ -43,7 +43,7 @@ export class BossRaidUsecase implements IBossRaidUsecase {
       }),
     ]);
 
-    const GAME_CLEAR = !BossRaid.checkTimeLimit(dungeon, record);
+    const GAME_CLEAR = BossRaid.checkTimeLimit(dungeon, record);
     await this.recordService.endGame({
       id: raidRecordId,
       user_id: userId,

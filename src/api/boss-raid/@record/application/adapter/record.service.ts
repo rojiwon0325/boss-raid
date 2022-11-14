@@ -32,6 +32,9 @@ export class RecordService implements IRecordService {
     );
   }
 
+  findMany(): Promise<Record.State[]> {
+    return this.recordRepository.findMany();
+  }
   async create({
     level,
     user_id,

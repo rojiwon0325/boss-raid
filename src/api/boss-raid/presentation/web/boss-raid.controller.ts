@@ -1,5 +1,7 @@
 import { Public } from '@AUTH/provider/decorator';
+import { BossRaidRankUsecase } from '@BOSSRAID/application/adapter/boss-raid.rank.usecase';
 import { BossRaidUsecase } from '@BOSSRAID/application/adapter/boss-raid.usecase';
+import { IBossRaidRankUsecase } from '@BOSSRAID/application/port/boss-raid.rank.usecase.port';
 import { IBossRaidUsecase } from '@BOSSRAID/application/port/boss-raid.usecase.port';
 import { Controller, Get, Inject, Patch, Post } from '@nestjs/common';
 import helper from 'nestia-helper';
@@ -10,6 +12,8 @@ export class BossRaidController {
   constructor(
     @Inject(BossRaidUsecase)
     private readonly bossRaidUsecase: IBossRaidUsecase,
+    @Inject(BossRaidRankUsecase)
+    private readonly bossRaidRankUsecase: IBossRaidRankUsecase,
   ) {}
 
   /**
@@ -19,6 +23,17 @@ export class BossRaidController {
   @Get()
   getState() {
     return this.bossRaidUsecase.getState();
+  }
+
+  /**
+   * 랭커 리스트를 얻는다.
+   * @param body myrank로 확인할 유저의 Id
+   * @returns
+   */
+  @Get('topRankerList')
+  getRankerList(@helper.TypedBody() body: IBossRaidRankUsecase.GetRank) {
+    const { userId } = body;
+    return this.bossRaidRankUsecase.getRankerList({ userId });
   }
 
   /**

@@ -71,6 +71,122 @@
         "description": "로그아웃 API\n사용자 쿠키에 있는 토큰을 제거한다.\n추후에 별도의 인증서버를 연동할 경우, 해당 인증서버에 로그아웃 요청을 보낸다."
       }
     },
+    "/bossRaid": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "보스 레이드 상태 조회 결과",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/__type"
+                    },
+                    {
+                      "$ref": "#/components/schemas/__type.o1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": "보스 레이드 상태 조회"
+      }
+    },
+    "/bossRaid/topRankerList": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "myrank로 확인할 유저의 Id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IBossRaidRankUsecase.GetRank"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IBossRaidRankUsecase.GetRankResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "랭커 리스트를 얻는다."
+      }
+    },
+    "/bossRaid/enter": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "입장 유저 정보 및 레벨 정보",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IBossRaidUsecase.Enter"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "레이드 시작 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/__type.o2"
+                    },
+                    {
+                      "$ref": "#/components/schemas/__type.o3"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": "보스 레이드 시작"
+      }
+    },
+    "/bossRaid/end": {
+      "patch": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "종료할 유저 및 레코드 정보",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IBossRaidUsecase.End"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "없음"
+          }
+        },
+        "description": "보스 레이드 종료"
+      }
+    },
     "/users": {
       "post": {
         "tags": [
@@ -171,7 +287,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/__type"
+                  "$ref": "#/components/schemas/__type.o4"
                 }
               }
             }
@@ -313,6 +429,203 @@
         "required": [
           "statusCode",
           "message"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__type": {
+        "type": "object",
+        "properties": {
+          "canEnter": {
+            "type": "boolean",
+            "enum": [
+              true
+            ],
+            "nullable": false,
+            "description": "던전 입장 가능 여부",
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "canEnter"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__type.o1": {
+        "type": "object",
+        "properties": {
+          "canEnter": {
+            "type": "boolean",
+            "enum": [
+              false
+            ],
+            "nullable": false,
+            "description": "던전 입장 가능 여부",
+            "x-tson-required": true
+          },
+          "enteredUserId": {
+            "type": "number",
+            "nullable": false,
+            "description": "현재 진행중인 유저",
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "canEnter",
+          "enteredUserId"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "IBossRaidRankUsecase.GetRank": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "userId"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "IBossRaidRankUsecase.GetRankResponse": {
+        "type": "object",
+        "properties": {
+          "topRankerInfoList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IBossRaidRankUsecase.RankingInfo",
+              "x-tson-required": true
+            },
+            "nullable": false,
+            "x-tson-required": true
+          },
+          "myRankingInfo": {
+            "$ref": "#/components/schemas/IBossRaidRankUsecase.RankingInfo",
+            "x-tson-required": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "topRankerInfoList"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "IBossRaidRankUsecase.RankingInfo": {
+        "type": "object",
+        "properties": {
+          "ranking": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          },
+          "userId": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          },
+          "totalScore": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "ranking",
+          "userId",
+          "totalScore"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "IBossRaidUsecase.Enter": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          },
+          "level": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "userId",
+          "level"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__type.o2": {
+        "type": "object",
+        "properties": {
+          "isEntered": {
+            "type": "boolean",
+            "enum": [
+              false
+            ],
+            "nullable": false,
+            "description": "입장 성공 여부",
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "isEntered"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "__type.o3": {
+        "type": "object",
+        "properties": {
+          "isEntered": {
+            "type": "boolean",
+            "enum": [
+              true
+            ],
+            "nullable": false,
+            "description": "입장 성공 여부",
+            "x-tson-required": true
+          },
+          "raidRecordId": {
+            "type": "number",
+            "nullable": false,
+            "description": "생성된 레코드 id",
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "isEntered",
+          "raidRecordId"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "IBossRaidUsecase.End": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          },
+          "raidRecordId": {
+            "type": "number",
+            "nullable": false,
+            "x-tson-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "userId",
+          "raidRecordId"
         ],
         "x-tson_jsDocTags": []
       },
@@ -676,7 +989,7 @@
         "nullable": false,
         "x-tson_jsDocTags": []
       },
-      "__type": {
+      "__type.o4": {
         "type": "object",
         "properties": {
           "id": {

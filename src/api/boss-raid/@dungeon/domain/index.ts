@@ -33,7 +33,7 @@ export const Dungeon: Dungeon = {
   get() {
     return {
       id: 1,
-      limit_seconds: 100,
+      limit_seconds: 1000,
       levels: [
         { level: 0, score: 20 },
         { level: 1, score: 47 },
